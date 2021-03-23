@@ -18,7 +18,7 @@ RUN apt-get update && apt-get upgrade -y
 
 RUN apt-get install -y asterisk asterisk-dev nano apache2 libapache2-mod-fcgid build-essential mariadb-server mariadb-client \
 	bison flex openssh-server aptitude cron fail2ban net-tools \
-	php7.0 php7.0-curl php7.0-cli php7.0-pdo php7.0-mysql php7.0-mbstring php7.0-xml curl sox \
+	php7.4 php7.4-curl php7.4-cli php7.4-pdo php7.4-mysql php7.4-mbstring php7.4-xml curl sox \
 	libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3  libsqlite3-dev \
 	pkg-config automake libtool autoconf \
 	git unixodbc-dev uuid uuid-dev \
@@ -30,18 +30,18 @@ RUN service asterisk stop
 RUN  rm -rf /var/lib/apt/lists/*
 
 RUN rm -rf /etc/asterisk \
-	&& mkdir /etc/asterisk \
-	&& touch /etc/asterisk/modules.conf \
-	&& touch /etc/asterisk/cdr.conf \	
-	&& chown asterisk. /var/run/asterisk \
-	&& chown -R asterisk. /etc/asterisk \
-	&& chown -R asterisk. /var/lib/asterisk \
-	&& chown -R asterisk. /var/log/asterisk \
-	&& chown -R asterisk. /var/spool/asterisk \	
-	&& chown -R asterisk. /usr/lib/asterisk \
+#	&& mkdir /etc/asterisk \
+#	&& touch /etc/asterisk/modules.conf \
+#	&& touch /etc/asterisk/cdr.conf \
+#	&& chown asterisk. /var/run/asterisk \
+#	&& chown -R asterisk. /etc/asterisk \
+#	&& chown -R asterisk. /var/lib/asterisk \
+#	&& chown -R asterisk. /var/log/asterisk \
+#	&& chown -R asterisk. /var/spool/asterisk \
+#	&& chown -R asterisk. /usr/lib/asterisk \
 	&& rm -rf /var/www/html
 
-RUN sed -i 's/\(^upload_max_filesize = \).*/\120M/' /etc/php/7.0/apache2/php.ini \
+RUN sed -i 's/\(^upload_max_filesize = \).*/\120M/' /etc/php/7.4/apache2/php.ini \
 	&& cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf_orig \
 	&& sed -i 's/^\(User\|Group\).*/\1 asterisk/' /etc/apache2/apache2.conf \
 	&& sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
@@ -54,35 +54,35 @@ RUN cd /usr/src \
 	&& tar xfz freepbx-15.0-latest.tgz \
 	&& rm -f freepbx-15.0-latest.tgz
 
-#### Add G729 Codecs
-RUN	git clone https://github.com/BelledonneCommunications/bcg729 /usr/src/bcg729 ; \
-	cd /usr/src/bcg729 ; \
-	git checkout tags/1.0.4 ; \
-	./autogen.sh ; \
-	./configure --libdir=/lib ; \
-	make ; \
-	make install
-	
-RUN	mkdir -p /usr/src/asterisk-g72x ; \
-	# Why does this need -k(--insecure?)
-	git clone https://bitbucket.org/arkadi/asterisk-g72x /usr/src/asterisk-g72x ; \
-	cd /usr/src/asterisk-g72x ; \
-	./autogen.sh
+##### Add G729 Codecs
+#RUN	git clone https://github.com/BelledonneCommunications/bcg729 /usr/src/bcg729 ; \
+#	cd /usr/src/bcg729 ; \
+#	git checkout tags/1.0.4 ; \
+#	./autogen.sh ; \
+#	./configure --libdir=/lib ; \
+#	make ; \
+#	make install
+#
+#RUN	mkdir -p /usr/src/asterisk-g72x ; \
+#	# Why does this need -k(--insecure?)
+#	git clone https://bitbucket.org/arkadi/asterisk-g72x /usr/src/asterisk-g72x ; \
+#	cd /usr/src/asterisk-g72x ; \
+#	./autogen.sh
+#
+#RUN cd /usr/src/asterisk-g72x ; \
+#	./configure --with-bcg729 ; \
+#	make ; \
+#	make install
 
-RUN cd /usr/src/asterisk-g72x ; \
-	./configure --with-bcg729 ; \
-	make ; \
-	make install
-
-RUN	cd /usr/src && git clone https://github.com/wdoekes/asterisk-chan-dongle.git && \
-	cd asterisk-chan-dongle && \
-	./bootstrap && \
-	./configure --with-astversion=${ASTERISK_VERSION} && \
-	make && \
-	make install
+#RUN	cd /usr/src && git clone https://github.com/wdoekes/asterisk-chan-dongle.git && \
+#	cd asterisk-chan-dongle && \
+#	./bootstrap && \
+#	./configure --with-astversion=${ASTERISK_VERSION} && \
+#	make && \
+#	make install
 
 # Copy files
-COPY ./config/asterisk/dongle.conf /etc/asterisk/dongle.conf 
+#COPY ./config/asterisk/dongle.conf /etc/asterisk/dongle.conf
 COPY ./config/exim4/exim4.conf /etc/exim4/exim4.conf
 ADD ./run /run
 
