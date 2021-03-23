@@ -18,7 +18,7 @@ RUN apt-get update && apt-get upgrade -y
 
 RUN apt-get install -y asterisk asterisk-dev asterisk-mobile nano apache2 libapache2-mod-fcgid build-essential mariadb-server mariadb-client \
 	bison flex openssh-server aptitude cron fail2ban net-tools \
-	php7.4 php7.4-curl php7.4-cli php7.4-pdo php7.4-mysql php7.4-mbstring php7.4-xml curl sox \
+	php7.3 php7.3-curl php7.3-cli php7.3-pdo php7.3-mysql php7.3-mbstring php7.3-xml curl sox \
 	libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3  libsqlite3-dev \
 	pkg-config automake libtool autoconf \
 	git unixodbc-dev uuid uuid-dev \
@@ -41,7 +41,7 @@ RUN rm -rf /etc/asterisk \
 	&& chown -R asterisk. /usr/lib/asterisk \
     && rm -rf /var/www/html
 
-RUN sed -i 's/\(^upload_max_filesize = \).*/\120M/' /etc/php/7.4/apache2/php.ini \
+RUN sed -i 's/\(^upload_max_filesize = \).*/\120M/' /etc/php/7.3/apache2/php.ini \
 	&& cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf_orig \
 	&& sed -i 's/^\(User\|Group\).*/\1 asterisk/' /etc/apache2/apache2.conf \
 	&& sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
