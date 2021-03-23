@@ -16,7 +16,7 @@ RUN	curl -sL https://deb.nodesource.com/setup_15.x | bash - && \
 
 RUN apt-get update && apt-get upgrade -y
 
-RUN apt-get install -y asterisk asterisk-dev nano apache2 libapache2-mod-fcgid build-essential mariadb-server mariadb-client \
+RUN apt-get install -y asterisk asterisk-dev asterisk-mobile nano apache2 libapache2-mod-fcgid build-essential mariadb-server mariadb-client \
 	bison flex openssh-server aptitude cron fail2ban net-tools \
 	php7.4 php7.4-curl php7.4-cli php7.4-pdo php7.4-mysql php7.4-mbstring php7.4-xml curl sox \
 	libncurses5-dev libssl-dev mpg123 libxml2-dev libnewt-dev sqlite3  libsqlite3-dev \
