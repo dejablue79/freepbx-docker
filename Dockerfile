@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y curl wget
 RUN wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg \
 	&& echo "deb https://packages.sury.org/php/ buster main" > /etc/apt/sources.list.d/php.list
 
-### NodeJS 11
-RUN	curl -sL https://deb.nodesource.com/setup_11.x | bash - && \
+### NodeJS 15
+RUN	curl -sL https://deb.nodesource.com/setup_15.x | bash - && \
 	apt-get install -y nodejs
 
 RUN apt-get update && apt-get upgrade -y
