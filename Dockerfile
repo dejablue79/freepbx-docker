@@ -29,7 +29,7 @@ RUN service asterisk stop
 	
 RUN  rm -rf /var/lib/apt/lists/*
 
-RUN rm -rf /etc/asterisk \
+#RUN rm -rf /etc/asterisk \
 #	&& mkdir /etc/asterisk \
 #	&& touch /etc/asterisk/modules.conf \
 #	&& touch /etc/asterisk/cdr.conf \
@@ -39,7 +39,7 @@ RUN rm -rf /etc/asterisk \
 #	&& chown -R asterisk. /var/log/asterisk \
 #	&& chown -R asterisk. /var/spool/asterisk \
 #	&& chown -R asterisk. /usr/lib/asterisk \
-	&& rm -rf /var/www/html
+RUN rm -rf /var/www/html
 
 RUN sed -i 's/\(^upload_max_filesize = \).*/\120M/' /etc/php/7.4/apache2/php.ini \
 	&& cp /etc/apache2/apache2.conf /etc/apache2/apache2.conf_orig \
